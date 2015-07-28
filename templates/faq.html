@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+  {% include 'files.html' %}
+  <script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/static/xheditor/xheditor-1.1.14-zh-cn.min.js"></script>
+  <style>
+  .xheditor {
+    width: 640px; 
+    height:320px;
+    padding-left: 100px;
+  }
+  </style>
+</head>
+<body>
+	<div class="container">
+    <div class="row">
+      <form id="faqForm" class="form-horizontal span24" action="">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">标题：</label>
+            <div class="controls">
+              <input type="text" class="control-text" name="id">
+            </div>
+          </div>
+          <div class="control-group span8">
+            <label class="control-label">类型：</label>
+            <div class="controls" >
+              <select name="" id="" name="sex">
+                <option value="">男</option>
+                <option value="">女</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span9">
+             <textarea class="xheditor {tools:'mfull',upLinkUrl:'/upload/',upImgUrl:'/upload/',upFlashUrl:'/upload/',upMediaUrl:'/upload/',localUrlTest:/^https?:\/\/[^\/]*?(localhost:?\d*)\//i,remoteImgSaveUrl:'/uploadremote/'}" id="content"></textarea>
+          </div>
+          
+        </div>
+      </form>
+    </div>
+    <div class="span3 offset2">
+            <button  type="button" id="btnSearch" class="button button-primary" onclick="submitfaq()">搜索</button>
+          </div>
+  </div>
+  <script type="text/javascript">
+    function submitfaq(){
+      var content=$('#content').val();
+      
+    }
+  </script>
+
+</body>
+</html>

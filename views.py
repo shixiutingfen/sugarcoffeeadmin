@@ -7,7 +7,12 @@ from flask import render_template, url_for, redirect, request, flash, session, g
 from model import User
 from flask import  jsonify
 import json
-
+import urllib
+import random
+import os
+import re
+import datetime
+import utils
 @app.route('/')
 @app.route('/index')
 def index():
@@ -17,8 +22,6 @@ def index():
 
 @app.route('/home')
 def home():
-    #user = {'nickname': 'Miguel'}
-    #posts=[{'author':'shixiuting','title':'husband'},{'author':'yangsaifen','title':'wife'}]
     return render_template("index.html",title = 'Home')
 
 
@@ -36,8 +39,18 @@ def get_users():
 
 @app.route('/adduser', methods=['GET','POST'])
 def adduser():
-	#username=request.form['username']
-	return render_template("success.html",title = 'Home',action='/usermanage')
+    requeststr = request.query_string
+    params=utils.getparam(requeststr)
+    username=params['username']
+    
+    return render_template("success.html",title = 'Home',action='/usermanage')
+
+
+
+@app.route('/faq', methods=['GET', 'POST'])
+def faq():
+    return render_template("faq.html",title = 'faq',action='/faq')
+
 
 
 
