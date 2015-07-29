@@ -4,7 +4,7 @@
 
 from myapp import app
 from flask import render_template, url_for, redirect, request, flash, session, g, abort
-from model import User
+from model import User,db
 from flask import  jsonify
 import json
 import urllib
@@ -50,6 +50,7 @@ def adduser():
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
     return render_template("faq.html",title = 'faq',action='/faq')
+
 
 
 
