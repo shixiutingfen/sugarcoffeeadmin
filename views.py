@@ -25,13 +25,19 @@ def home():
     return render_template("index.html",title = 'Home')
 
 
-@app.route('/usermanage')
-def learn():
-    return render_template("usermanage.html",title = 'learn')
+@app.route('/usermanage', methods=['GET','POST'])
+def usermanage():
+    return render_template("usermanage.html",title = 'Home',action='/usermanage')
 
-@app.route('/getusers', methods=['GET'])
+@app.route('/getusers', methods=['GET','POST'])
 def get_users():
-	users = User.query.getall()
+	#pageSize=request.form['pageSize']
+	# requeststr=request.args
+	# users = User.query.limit(10)
+	# paginate = User.query.paginate(start, limit, False) 
+	# users = paginate.items
+	paginate = User.query.paginate(1, 10, False) 
+	users = paginate.items
 	userlist = []
 	for user in users:
 		userlist.append(user.to_json())
