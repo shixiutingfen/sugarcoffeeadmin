@@ -36,8 +36,21 @@ class User(db.Model):
     def __repr__(self):
         return '<user username %r>' % self.username
 
+    def getTotal(self):
+        return len(User.query.all())
+
     def adduser(self):
         db.session.add(self)
+        db.session.commit()
+
+    def updateuser(self,params):
+        print params
+        db.session.query(User).filter(User.userid == params['userid']).update({
+            User.email: params['email'],
+            User.password: params['password'],
+            User.sex: params['sex'],
+            User.username: params['username']
+        })
         db.session.commit()
 
     def deleteuser(self,userid):

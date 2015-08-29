@@ -10,18 +10,20 @@
     <form id="searchForm" class="form-horizontal">
       <div class="row">
         <div class="control-group span8">
-          <label class="control-label">用户名：</label>
+          <label class="control-label">分类名称：</label>
           <div class="controls">
-            <input type="text" class="control-text" name="username" id="username">
+            <input type="text" class="control-text" name="catagoryname" id="catagoryname">
           </div>
         </div>
         <div class="control-group span8">
           <label class="control-label">性别：</label>
           <div class="controls" >
-            <select  id="sexsearch" name="sex">
+            <select  id="belongtosearch" name="belongto">
               <option value="">---请选择---</option>
-              <option value="1">男</option>
-              <option value="2">女</option>
+               <option value="1">文章分类</option>
+               <option value="2">图片</option>
+               <option value="3">FAQ分类</option>
+               <option value="4">投票分类</option>
             </select>
           </div>
         </div>
@@ -47,29 +49,19 @@
     <form id="addform" class="form-horizontal">
       <div class="row">
         <div class="control-group span8">
-          <label class="control-label">用户名：</label>
+          <label class="control-label">分类名称：</label>
           <div class="controls">
-            <input id="usernameAdd"  name="username" type="text" data-rules="{required:true}" data-messages="{required:'用户名不能为空'}" class="input-normal control-text" data-tip="{text:'请输入用户名'}">
+            <input id="catagorynameAdd"  name="catagoryname" type="text" data-rules="{required:true}" data-messages="{required:'用户名不能为空'}" class="input-normal control-text" data-tip="{text:'请输入用户名'}">
           </div>
         </div>
         <div class="control-group span8">
-          <label class="control-label">密码：</label>
+          <label class="control-label">归属于：</label>
           <div class="controls">
-            <input id="passwordAdd" name="password" type="password" data-rules="{required:true}" data-messages="{required:'密码不能为空'}" class="input-normal control-text" data-tip="{text:'请输入密码'}">
-          </div>
-        </div>
-        <div class="control-group span8">
-          <label class="control-label">邮箱：</label>
-          <div class="controls">
-            <input id="emailAdd" name="email" type="text" data-rules="{required:true,email:true}" data-messages="{required:'邮箱不能为空',email:'邮箱格式不正确'}" class="input-normal control-text" data-tip="{text:'请输入邮箱'}">
-          </div>
-        </div>
-        <div class="control-group span8">
-          <label class="control-label">性别：</label>
-          <div class="controls">
-            <select name="type" class="input-normal" id="sexAdd" name="sex"> 
-              <option value="1">男</option>
-              <option value="2">女</option>
+            <select name="type" class="input-normal" id="belongtoadd" name="belongto"> 
+              <option value="1">文章分类</option>
+              <option value="2">图片</option>
+              <option value="3">FAQ分类</option>
+              <option value="4">投票分类</option>
             </select>
           </div>
         </div>
@@ -78,7 +70,7 @@
       <div class="row">
         <div class="span13 offset3 ">
           <input type="reset" style="display:none;" /> 
-          <button type="button" class="button button-primary" id="userAddBtn">保存</button>
+          <button type="button" class="button button-primary" id="catagoryAddBtn">保存</button>
           <button type="reset" class="button">重置</button>
         </div>
       </div>
@@ -136,7 +128,6 @@
   <script type="text/javascript">
     $(document).ready(function(){ 
       $("#searchForm").submit()
-
     　　
     });   
     //var sexsearch=$("#sexsearch").val();  
@@ -145,20 +136,17 @@
   Data = BUI.Data;
   var Store = Data.Store,
   columns = [
-  {title : '用户id',dataIndex :'userid', width:100},
-  {title : '用户名',dataIndex :'username', width:100},
-  {title : '密码',dataIndex :'password', width:100},
-  {title : '性别',dataIndex :'sex', width:100,renderer:function(value,obj){
-            return obj.sex=="1"?"男":"女";
+  {title : '分类id',dataIndex :'catagoryid', width:200},
+  {title : '分类id',dataIndex :'catagoryname', width:200},
+  {title : '归属于',dataIndex :'belongto', width:200,renderer:function(value,obj){
+            return obj.belongto=="1"?"文章分类":(obj.belongto=="2"?"图片":(obj.belongto=="3"?"FAQ分类":(obj.belongto=="4"?"投票分类":"其他")));
           }},
-  {title : '邮箱',dataIndex :'email', width:200},
-  {title : '手机号码',dataIndex :'mobile', width:100},
   {title : '注册时间',dataIndex :'createtime', width:200}
   ];
   
   
   var store = new Store({
-    url : '/getusers',
+    url : '/article/getcatagorys',
     autoLoad:true,
     pageSize : 10,
     proxy : {
@@ -168,7 +156,6 @@
               }
             },
             params : {
-              sex:sexsearch
             },
             root : 'rows',
             totalProperty : 'results'
@@ -233,7 +220,7 @@
       }).render();
 
       var dialog = new Overlay.Dialog({
-        title:'新增用户',
+        title:'新增分类',
         width:500,
         height:320,
             //配置DOM容器的编号
@@ -248,15 +235,13 @@
         dialog.show();
       });
 
-      $("#userAddBtn").bind('click',function(){
-        var username=$("#usernameAdd").val();
-        var email = $("#emailAdd").val();
-        var sex=$("#sexAdd").val();
-        var password = $("#passwordAdd").val();
+      $("#catagoryAddBtn").bind('click',function(){
+        var catagoryname=$("#catagorynameAdd").val();
+        var belongto = $("#belongtoadd").val();
         $.ajax({
-          url : '/adduser',
+          url : '/article/addcatagory',
           dataType : 'json',
-          data : {username:username,email:email,sex:sex,password:password},
+          data : {catagoryname:catagoryname,belongto:belongto},
           success : function(data){
                   if(data.msg=='0000'){ //删除成功
                     dialog.hide();

@@ -18,6 +18,16 @@ def getparam(str):
 	return resultmap
 
 """
+转化ajax的ids
+"""
+def getAjaxIds(str):
+	params=str.split("&")
+	l1=[]
+	for param in params:
+		l1.append(param.split("=")[1])
+	return l1
+
+"""
 	md5密码加密
 """
 def getenctry(password):

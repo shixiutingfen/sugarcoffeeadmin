@@ -7,7 +7,7 @@ DEBUG = True
 PER_PAGE = 10
 
 # configuration mysql
-SQLALCHEMY_DATABASE_URI = "mysql://%s:%s@%s/%s" % ('root', 'manjie410', 'localhost', 'coffee')
+SQLALCHEMY_DATABASE_URI = "mysql://%s:%s@%s/%s?charset=utf8" % ('root', 'root', 'localhost', 'sugarcoffee')
 
 SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 USERNAME = 'shixiuting'

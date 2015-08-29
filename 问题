@@ -1,0 +1,2 @@
+加encodeURIComponent变成ids=123%2C1223
+不加ids[]=123&ids[]=1223
