@@ -84,9 +84,17 @@ class Catagory(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def updatecatagory(self,params):
+        print params
+        db.session.query(Catagory).filter(Catagory.userid == params['catagoryid']).update({
+            Catagory.catagoryname: params['catagoryname'],
+            Catagory.belongto: params['belongto']
+        })
+        db.session.commit()
+
     def deletecatagory(self,catagoryid):
         catagory = Catagory.query.filter_by(catagoryid=catagoryid).first()
-        db.session.delete(user)
+        db.session.delete(catagory)
         db.session.commit()
 
     def to_json(self):
@@ -122,6 +130,7 @@ class CatagoryRef(db.Model):
 class Article(db.Model):
     __tablename__ = 'c_article'
     articleid = db.Column(db.Integer, primary_key=True)
+    catagoryrelateid = db.Column(db.String(20))
     title = db.Column(db.String(30))
     content = db.Column(db.Text)
     pic = db.Column(db.String(30))
@@ -145,7 +154,8 @@ class Article(db.Model):
         db.session.commit()
 
     def to_json(self):
-        return dict(articleid=self.articleid, title=self.title,
+        return dict(articleid=self.articleid,catagoryrelateid=self.catagoryrelateid,
+             title=self.title,
             content=self.content,pic=self.pic,istop=self.istop,
             createuser=self.createuser,createtime=self.createtime)
 

@@ -67,7 +67,6 @@ def delusers():
 def adduser():
     user=User()
     requeststr = request.query_string
-    print unquote(requeststr)
     params=utils.getparam(unquote(requeststr))
     user.username=params['username']
     user.email=params['email']

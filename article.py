@@ -4,12 +4,12 @@
 
 from myapp import app
 from flask import render_template, url_for, redirect, request, flash, session, g, abort
-from model import Catagory,db
+from model import Catagory,db,Article
 from flask import  jsonify
 import json
 import urllib
 import random
-import os
+import os,sys
 import re
 import datetime
 import utils
@@ -25,14 +25,10 @@ def getcatagorys():
 	catagory=Catagory()
 	pageIndexParam = request.form['pageIndex']
 	belongto=request.form['belongto']
-	catagoryname=unquote(request.form['catagoryname'])
-	print belongto
 	query=Catagory.query
 	###条件查询####
 	if belongto:
 		query=query.filter(Catagory.belongto == belongto)
-	if catagoryname:
-		query=query.filter(Catagory.catagoryname.like(catagoryname))
 	pageIndexParam=int(pageIndexParam)+1
 	total=len(query.all())
 	paginate = query.paginate(pageIndexParam, 10, False) 
@@ -44,12 +40,11 @@ def getcatagorys():
 
 @app.route('/article/delcatagorys',methods=['GET','POST'])
 def delcatagorys():
-	user=User()
+	catagory=Catagory()
 	requeststr = request.query_string
 	ids=utils.getAjaxIds(unquote(requeststr))
-	for userid in ids:
-		print userid
-		user.deleteuser(userid)
+	for catagoryid in ids:
+		catagory.deletecatagory(catagoryid)
 	return(jsonify(msg='0000'))
 
 @app.route('/article/addcatagory', methods=['GET','POST'])
@@ -65,19 +60,35 @@ def addcatagory():
 
 @app.route('/article/editcatagory',methods=['GET','POST'])
 def editcatagory():
-	user=User()
+	catagory=Catagory()
 	requeststr=request.query_string
 	params=utils.getparam(unquote(requeststr))
 	paramdict={}
-	paramdict["userid"]=params['userid']
-	paramdict["username"]=params['username']
-	paramdict["email"]=params['email']
-	paramdict["password"]=params['password']
-	paramdict["sex"]=params['sex']
-	user.updateuser(paramdict)
+	paramdict["catagoryid"]=params['catagoryid']
+	paramdict["catagoryname"]=params['catagoryname']
+	paramdict["belongto"]=params['belongto']
+	catagory.updatecatagory(paramdict)
 	return jsonify(msg='0000')
 
+@app.route('/article/addarticle')
+def addarticle():
+	article=Article()
+	requeststr=request.query_string
+	params=utils.getArticleStr(unquote(requeststr))
+	article.title=params[0]
+	article.catagoryrelateid=params[1]
+	article.content=params[2]
+	article.addarticle()
+	return jsonify(msg='0000')
 
+@app.route('/article/getArticle')
+def getArticle():
+	article=Article()
+	articlelist=Article.query.all()
+	articles=[]
+	for article in articlelist:
+		articles.append(article.to_json())
+	return (jsonify(rows=articles))
 
 
 

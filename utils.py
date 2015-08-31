@@ -27,6 +27,19 @@ def getAjaxIds(str):
 		l1.append(param.split("=")[1])
 	return l1
 
+
+"""
+截取文章字符
+"""
+def getArticleStr(str):
+	params=str.split("&")
+	l1=[]
+	l1.append(str[str.index("title=")+6:str.index("catagoryid=")-1])
+	l1.append(str[str.index("catagoryid=")+11:str.index("content=")-1])
+	l1.append(str[str.index("content=")+8:len(str)])
+	return l1
+
+
 """
 	md5密码加密
 """

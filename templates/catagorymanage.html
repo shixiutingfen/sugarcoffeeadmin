@@ -9,12 +9,7 @@
 	<div class="container">
     <form id="searchForm" class="form-horizontal">
       <div class="row">
-        <div class="control-group span8">
-          <label class="control-label">分类名称：</label>
-          <div class="controls">
-            <input type="text" class="control-text" name="catagoryname" id="catagoryname">
-          </div>
-        </div>
+        
         <div class="control-group span8">
           <label class="control-label">性别：</label>
           <div class="controls" >
@@ -27,9 +22,8 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="control-group span9">
+
+         <div class="control-group span9">
           <label class="control-label">创建时间：</label>
           <div class="controls">
             <input type="text" class="calendar" name="startDate"><span> - </span><input name="endDate" type="text" class="calendar">
@@ -39,6 +33,7 @@
           <button  type="submit" id="btnSearch" class="button button-primary">搜索</button>
         </div>
       </div>
+      
     </form>
     <div class="search-grid-container">
       <div id="grid"></div>
@@ -173,7 +168,7 @@
               tbar : {
                 items : [
                 {text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',id:'btnAddShow'},
-                {text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',id:'btnEditShow'},
+                // {text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',id:'btnEditShow'},
                 {text : '<i class="icon-remove"></i>删除',btnCls : 'button button-small',handler : delFunction}
                 ]
               },
@@ -188,15 +183,15 @@
    }else{
     var ids = [];
     BUI.each(items,function(item){
-      ids.push(item.userid);
+      ids.push(item.catagoryid);
     });
     //ids=encodeURIComponent(ids);
     if(ids.length){
       BUI.Message.Confirm('确认要删除选中的记录么？',function(){
         $.ajax({
-          url : '/delusers',
+          url : '/article/delcatagorys',
           dataType : 'json',
-          data : {userids:ids},
+          data : {catagoryids:ids},
           success : function(data){
             if(data.msg=='0000'){ //删除成功
               BUI.Message.Alert('删除成功！');
