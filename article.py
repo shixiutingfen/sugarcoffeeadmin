@@ -91,7 +91,9 @@ def getArticle():
 	return (jsonify(rows=articles))
 
 
-
+@app.route('/article/articlemanage', methods=['GET','POST'])
+def articlemanage():
+    return render_template("articlemanage.html",title = 'Home',action='/catagorymanage')
 
 
 

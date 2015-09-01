@@ -45,6 +45,14 @@
           id:'menu', 
           homePage : 'code',
           menu:[{
+              text:'系统管理',
+              items:[
+                {id:'code',text:'分类管理',href:'/article/catagorymanage',closeable : false},
+                {id:'main-menu',text:'用户统计',href:'main/menu.html'},
+                {id:'second-menu',text:'留言管理',href:'main/second-menu.html'},
+                {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'}
+              ]
+            },{
               text:'用户管理',
               items:[
                 {id:'code',text:'用户列表',href:'/usermanage',closeable : false},
@@ -62,8 +70,7 @@
             },{
               text:'文章管理',
               items:[
-                {id:'resource',text:'分类管理',href:'/article/catagorymanage'},
-                {id:'loader',text:'进出货',href:'main/loader.html'},
+                {id:'loader',text:'文章管理',href:'/article/articlemanage'},
                 {id:'faq',text:'公告',href:'/faq'}
               ]
             }]

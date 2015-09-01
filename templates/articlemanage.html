@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sugarcoffee</title>
+  {% include 'files.html' %}
+</head>
+<body>
+	<div class="container">
+    <form id="searchForm" class="form-horizontal">
+      <div class="row">
+        
+        <div class="control-group span8">
+          <label class="control-label">性别：</label>
+          <div class="controls" >
+            <select  id="belongtosearch" name="belongto">
+              <option value="">---请选择---</option>
+               <option value="1">文章分类</option>
+               <option value="2">图片</option>
+               <option value="3">FAQ分类</option>
+               <option value="4">投票分类</option>
+            </select>
+          </div>
+        </div>
+
+         <div class="control-group span9">
+          <label class="control-label">创建时间：</label>
+          <div class="controls">
+            <input type="text" class="calendar" name="startDate"><span> - </span><input name="endDate" type="text" class="calendar">
+          </div>
+        </div>
+        <div class="span3 offset2">
+          <button  type="submit" id="btnSearch" class="button button-primary">搜索</button>
+        </div>
+      </div>
+      
+    </form>
+    <div class="search-grid-container">
+      <div id="grid"></div>
+    </div>
+  </div>
+<!--＝＝＝＝＝＝＝＝＝＝＝＝＝＝新增＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
+  <div id="content" class="hide">
+    <form id="addform" class="form-horizontal">
+      <div class="row">
+        <div class="control-group span8">
+          <label class="control-label">分类名称：</label>
+          <div class="controls">
+            <input id="catagorynameAdd"  name="catagoryname" type="text" data-rules="{required:true}" data-messages="{required:'用户名不能为空'}" class="input-normal control-text" data-tip="{text:'请输入用户名'}">
+          </div>
+        </div>
+        <div class="control-group span8">
+          <label class="control-label">归属于：</label>
+          <div class="controls">
+            <select name="type" class="input-normal" id="belongtoadd" name="belongto"> 
+              <option value="1">文章分类</option>
+              <option value="2">图片</option>
+              <option value="3">FAQ分类</option>
+              <option value="4">投票分类</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span13 offset3 ">
+          <input type="reset" style="display:none;" /> 
+          <button type="button" class="button button-primary" id="catagoryAddBtn">保存</button>
+          <button type="reset" class="button">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<!--＝＝＝＝＝＝＝＝＝＝＝＝＝＝新增＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
+
+<!--＝＝＝＝＝＝＝＝＝＝＝＝＝＝编辑＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
+  <div id="eidtcontent" class="hide">
+    <form id="editform" class="form-horizontal">
+      <div class="row">
+        <div class="control-group span8">
+          <label class="control-label">用户名：</label>
+          <div class="controls">
+            <input id="usernameEdit"  name="username" type="text" data-rules="{required:true}" data-messages="{required:'用户名不能为空'}" class="input-normal control-text" data-tip="{text:'请输入用户名'}">
+          </div>
+        </div>
+        <div class="control-group span8">
+          <label class="control-label">密码：</label>
+          <div class="controls">
+            <input id="passwordEdit" name="password" type="password" data-rules="{required:true}" data-messages="{required:'密码不能为空'}" class="input-normal control-text" data-tip="{text:'请输入密码'}">
+          </div>
+        </div>
+        <div class="control-group span8">
+          <label class="control-label">邮箱：</label>
+          <div class="controls">
+            <input id="emailEdit" name="email" type="text" data-rules="{required:true,email:true}" data-messages="{required:'邮箱不能为空',email:'邮箱格式不正确'}" class="input-normal control-text" data-tip="{text:'请输入邮箱'}">
+          </div>
+        </div>
+        <div class="control-group span8">
+          <label class="control-label">性别：</label>
+          <div class="controls">
+            <select name="type" class="input-normal" id="sexEdit" name="sex"> 
+              <option value="1">男</option>
+              <option value="2">女</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="userid" id="useridEdit">
+      <div class="row">
+        <div class="span13 offset3 ">
+          <input type="reset" style="display:none;" /> 
+          <button type="button" class="button button-primary" id="userEditBtn">保存</button>
+          <button type="reset" class="button">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<!--＝＝＝＝＝＝＝＝＝＝＝＝＝＝编辑＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
+
+  <!-- script start --> 
+  <script type="text/javascript">
+    $(document).ready(function(){ 
+      $("#searchForm").submit()
+    　　
+    });   
+    //var sexsearch=$("#sexsearch").val();  
+
+  var Grid = BUI.Grid,
+  Data = BUI.Data;
+  var Store = Data.Store,
+  columns = [
+  {title : '分类id',dataIndex :'catagoryid', width:200},
+  {title : '分类id',dataIndex :'catagoryname', width:200},
+  {title : '归属于',dataIndex :'belongto', width:200,renderer:function(value,obj){
+            return obj.belongto=="1"?"文章分类":(obj.belongto=="2"?"图片":(obj.belongto=="3"?"FAQ分类":(obj.belongto=="4"?"投票分类":"其他")));
+          }},
+  {title : '注册时间',dataIndex :'createtime', width:200}
+  ];
+  
+  
+  var store = new Store({
+    url : '/article/getcatagorys',
+    autoLoad:true,
+    pageSize : 10,
+    proxy : {
+              ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法
+                traditional : true,
+                type : 'post'
+              }
+            },
+            params : {
+            },
+            root : 'rows',
+            totalProperty : 'results'
+          }),
+  grid = new Grid.Grid({
+    render:'#grid',
+    columns : columns,
+    loadMask: true,
+    store: store,
+            // 底部工具栏
+            bbar:{
+                // pagingBar:表明包含分页栏
+                pagingBar:true
+              },
+              tbar : {
+                items : [
+                {text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',id:'btnAddShow'},
+                // {text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',id:'btnEditShow'},
+                {text : '<i class="icon-remove"></i>删除',btnCls : 'button button-small',handler : delFunction}
+                ]
+              },
+            plugins : [BUI.Grid.Plugins.CheckSelection] // 插件形式引入多选表格
+          });
+  grid.render();
+
+  function delFunction(){
+    var items = grid.getSelection();
+    if(items.length<=0){
+     BUI.Message.Alert('请选择至少一条记录','info');
+   }else{
+    var ids = [];
+    BUI.each(items,function(item){
+      ids.push(item.catagoryid);
+    });
+    //ids=encodeURIComponent(ids);
+    if(ids.length){
+      BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+        $.ajax({
+          url : '/article/delcatagorys',
+          dataType : 'json',
+          data : {catagoryids:ids},
+          success : function(data){
+            if(data.msg=='0000'){ //删除成功
+              BUI.Message.Alert('删除成功！');
+              store.load();
+            }else{ //删除失败
+              BUI.Message.Alert('删除失败！');
+            }
+          }
+        });
+      },'question');
+    }
+  }
+}
+
+
+
+    //新增
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+      var form = new Form.HForm({
+        srcNode : '#addform'
+      }).render();
+
+      var dialog = new Overlay.Dialog({
+        title:'新增分类',
+        width:500,
+        height:320,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              alert('确认');
+              this.close();
+            }
+          });
+      $('#btnAddShow').on('click',function () {
+        $("input[type=reset]").trigger("click");
+        dialog.show();
+      });
+
+      $("#catagoryAddBtn").bind('click',function(){
+        var catagoryname=$("#catagorynameAdd").val();
+        var belongto = $("#belongtoadd").val();
+        $.ajax({
+          url : '/article/addcatagory',
+          dataType : 'json',
+          data : {catagoryname:catagoryname,belongto:belongto},
+          success : function(data){
+                  if(data.msg=='0000'){ //删除成功
+                    dialog.hide();
+                    BUI.Message.Alert('添加成功！');
+                    store.load();
+                  }else{ //删除失败
+                    BUI.Message.Alert('添加失败！');
+                  }
+                }
+              });
+      });
+    });
+
+
+//编辑
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+      var form = new Form.HForm({
+        srcNode : '#editform'
+      }).render();
+
+      var dialog = new Overlay.Dialog({
+        title:'编辑用户',
+        width:500,
+        height:320,
+            //配置DOM容器的编号
+            contentId:'eidtcontent',
+            success:function () {
+              alert('确认');
+              this.close();
+            }
+          });
+      $('#btnEditShow').on('click',function () {
+        var items = grid.getSelection();
+        if(items.length>1){
+          BUI.Message.Alert('最多编辑一条记录！');
+        }else if(items.length<1){
+          BUI.Message.Alert('请选择一条记录！');
+        }else{
+          $("input[type=reset]").trigger("click");
+          dialog.show();
+          $("#usernameEdit").val(items[0].username);
+          $("#emailEdit").val(items[0].email);
+          $("#useridEdit").val(items[0].userid);
+        }
+        
+      });
+
+      $("#userEditBtn").bind('click',function(){
+        var username=$("#usernameEdit").val();
+        var email = $("#emailEdit").val();
+        var sex=$("#sexEdit").val();
+        var password = $("#passwordEdit").val();
+        var userid=$("#useridEdit").val();
+        $.ajax({
+          url : '/edituser',
+          dataType : 'json',
+          data : {username:username,email:email,sex:sex,password:password,userid:userid},
+          success : function(data){
+                  if(data.msg=='0000'){ //删除成功
+                    dialog.hide();
+                    BUI.Message.Alert('添加成功！');
+                    store.load();
+                  }else{ //删除失败
+                    BUI.Message.Alert('添加失败！');
+                  }
+                }
+              });
+      });
+    });
+  
+    var form = new BUI.Form.HForm({
+          srcNode : '#searchForm'
+        }).render();
+ 
+        form.on('beforesubmit',function(ev) {
+          //序列化成对象
+          var obj = form.serializeToObject();
+          obj.start = 0; //返回第一页
+          store.load(obj);
+          return false;
+        });
+   
+</script>
+
+<script type="text/javascript">
+BUI.use('bui/calendar',function(Calendar){
+  var datepicker = new Calendar.DatePicker({
+    trigger:'.calendar',
+    autoRender : true
+  });
+});
+</script>
+
+
+<!-- script end -->
+</div>
+</body>
+</html>
